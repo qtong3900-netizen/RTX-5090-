@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NVIDIA GeForce RTX 5090 Founders Edition - Showcase & Teardown</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        nvidia: {
+                            green: '#76b900',
+                            glow: '#92e600',
+                            dark: '#080c14'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #05070d;
+            color: #f1f5f9;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 50% 30%, rgba(118, 185, 0, 0.12) 0%, transparent 60%),
+                radial-gradient(circle at 90% 80%, rgba(56, 189, 248, 0.05) 0%, transparent 50%);
+        }
+
+        .liquid-glass {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(24px) saturate(190%);
+            -webkit-backdrop-filter: blur(24px) saturate(190%);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+        }
+
+        .liquid-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.01) 100%);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .liquid-card:hover {
+            border-color: rgba(118, 185, 0, 0.5);
+            box-shadow: 0 8px 25px rgba(118, 185, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .bg-grid {
+            background-size: 36px 36px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+
+        /* Custom glass scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #05070d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #76b900;
+        }
+    </style>
+</head>
+<body class="bg-grid min-h-screen flex flex-col justify-between select-none">
+
+    <header class="sticky top-0 z-50 w-full px-6 py-4 liquid-glass border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-nvidia-green/20 border border-nvidia-green flex items-center justify-center shadow-[0_0_15px_rgba(118,185,0,0.3)]">
+                    <span class="text-nvidia-green font-mono font-bold text-xl">50</span>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold font-mono tracking-wide text-white flex items-center gap-2">
+                        GeForce RTX™ 5090
+                        <span class="text-[10px] bg-nvidia-green/20 text-nvidia-green px-2 py-0.5 rounded border border-nvidia-green/40 font-mono">FOUNDERS EDITION</span>
+                    </h1>
+                    <p class="text-xs text-slate-400">Blackwell Architecture • 32GB GDDR7</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <div class="hidden sm:flex flex-col items-end">
+                    <span class="text-[10px] text-slate-400 font-mono">GIÁ KHỞI ĐIỂM</span>
+                    <span class="text-sm font-bold font-mono text-nvidia-green">63,361,000 VNĐ</span>
+                </div>
+                <button id="buyBtn" class="bg-nvidia-green hover:bg-nvidia-glow text-black font-semibold font-mono px-4 py-2 rounded-xl transition shadow-[0_0_20px_rgba(118,185,0,0.4)] text-xs sm:text-sm">
+                    Mua Hàng
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto w-full px-4 sm:px-6 py-6 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+        <!-- Left Column: Primary GPU Canvas Showcase (8 Cols) -->
+        <section class="lg:col-span-8 flex flex-col space-y-4">
+            
+            <!-- Canvas Container with Glassmorphism Border -->
+            <div class="liquid-glass rounded-3xl p-4 sm:p-6 relative overflow-hidden flex flex-col space-y-4">
+                
+                <div class="flex items-center justify-between z-10">
+                    <div class="flex items-center space-x-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-nvidia-green animate-ping"></span>
+                        <span id="viewModeLabel" class="text-xs font-mono font-bold text-white tracking-wider">FOUNDERS EDITION 3D MODEL</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs font-mono text-slate-400">RPM:</span>
+                        <span id="rpmDisplay" class="text-xs font-mono text-nvidia-green font-bold">1800 RPM</span>
+                    </div>
+                </div>
+
+                <!-- Interactive 2D/3D Style Canvas -->
+                <div class="relative w-full aspect-[16/10] sm:aspect-[16/9] rounded-2xl overflow-hidden bg-slate-950/90 border border-slate-800 shadow-inner group">
+                    <canvas id="gpuCanvas" class="w-full h-full object-cover cursor-grab active:cursor-grabbing"></canvas>
+                    
+                    <!-- HUD Glass Controls floating over canvas -->
+                    <div class="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-slate-900/70 backdrop-blur-md border border-white/10 z-10">
+                        <div class="flex items-center space-x-2">
+                            <button id="teardownToggleBtn" class="bg-indigo-600 hover:bg-indigo-500 text-white font-mono text-xs px-3.5 py-1.5 rounded-lg transition shadow-md font-semibold">
+                                💥 Exploded Teardown
+                            </button>
+                            <button id="ledToggleBtn" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-mono text-xs px-3 py-1.5 rounded-lg border border-slate-700 transition">
+                                💡 LED: <span id="ledStateText" class="text-nvidia-green">GREEN</span>
+                            </button>
+                        </div>
+
+                        <!-- Fan Speed Slider -->
+                        <div class="flex items-center space-x-2 text-xs font-mono text-slate-300">
+                            <span>Quạt:</span>
+                            <input type="range" id="fanSpeedSlider" min="0" max="3600" value="1800" step="100" class="w-24 sm:w-32 accent-nvidia-green cursor-pointer">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chapter Buttons / Quick Actions -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+                    <button onclick="setCameraAngle('front')" class="liquid-card p-2.5 rounded-xl text-left">
+                        <p class="text-[10px] font-mono text-slate-400">VIEWPOINT</p>
+                        <p class="text-xs font-semibold text-slate-200">Front Dual Fan</p>
+                    </button>
+                    <button onclick="setCameraAngle('side')" class="liquid-card p-2.5 rounded-xl text-left">
+                        <p class="text-[10px] font-mono text-slate-400">LOGO LIGHTING</p>
+                        <p class="text-xs font-semibold text-slate-200">Side GEFORCE RTX</p>
+                    </button>
+                    <button onclick="triggerTeardownLayer('vram')" class="liquid-card p-2.5 rounded-xl text-left">
+                        <p class="text-[10px] font-mono text-slate-400">HARDWARE</p>
+                        <p class="text-xs font-semibold text-indigo-400">GB202 + GDDR7</p>
+                    </button>
+                    <button onclick="triggerTeardownLayer('heatsink')" class="liquid-card p-2.5 rounded-xl text-left">
+                        <p class="text-[10px] font-mono text-slate-400">COOLING</p>
+                        <p class="text-xs font-semibold text-cyan-400">Vapor Fin Matrix</p>
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="liquid-glass rounded-3xl p-6 space-y-4">
+                <h2 class="text-base font-mono font-bold text-white flex items-center gap-2">
+                    <span class="text-nvidia-green">#</span> THAY ĐỔI CUỘC CHƠI (GAME CHANGER)
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    NVIDIA® GeForce RTX™ 5090 là GPU GeForce mạnh mẽ nhất từng được sản xuất. Sở hữu kiến trúc NVIDIA Blackwell đột phá, trang bị 32GB bộ nhớ GDDR7 siêu tốc và băng thông đột phá 1,792 GB/s, sẵn sàng chinh phục mọi tựa game 4K/8K và khối lượng công việc AI phức tạp nhất.
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                    <div class="liquid-card p-4 rounded-2xl">
+                        <p class="text-[10px] font-mono text-slate-400">KIẾN TRÚC</p>
+                        <p class="text-lg font-bold font-mono text-white mt-1">Blackwell</p>
+                        <p class="text-[11px] text-slate-400 mt-1">Tiến trình TSMC 4N tùy chỉnh</p>
+                    </div>
+                    <div class="liquid-card p-4 rounded-2xl">
+                        <p class="text-[10px] font-mono text-slate-400">BỘ NHỚ VRAM</p>
+                        <p class="text-lg font-bold font-mono text-indigo-400 mt-1">32GB GDDR7</p>
+                        <p class="text-[11px] text-slate-400 mt-1">Bus 512-bit cực rộng</p>
+                    </div>
+                    <div class="liquid-card p-4 rounded-2xl">
+                        <p class="text-[10px] font-mono text-slate-400">CÔNG NGHỆ AI</p>
+                        <p class="text-lg font-bold font-mono text-nvidia-green mt-1">DLSS 4 & Ray Tracing</p>
+                        <p class="text-[11px] text-slate-400 mt-1">Mô phỏng ánh sáng thời gian thực</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <aside class="lg:col-span-4 flex flex-col space-y-4">
+            
+            <!-- Realtime Telemetry Glass Card -->
+            <div class="liquid-glass rounded-3xl p-5 space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
+                    <h3 class="font-mono font-bold text-xs text-white flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-nvidia-green"></span>
+                        TELEMETRY SENSORS
+                    </h3>
+                    <span class="text-[10px] font-mono text-slate-500">LIVE MONITORING</span>
+                </div>
+
+                <!-- Fan Speed Status -->
+                <div class="space-y-1">
+                    <div class="flex justify-between text-xs font-mono">
+                        <span class="text-slate-400">Tốc độ quạt (Fan Speed)</span>
+                        <span id="fanPercentText" class="text-nvidia-green font-bold">50%</span>
+                    </div>
+                    <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                        <div id="fanBar" class="h-full bg-nvidia-green w-[50%] transition-all duration-300"></div>
+                    </div>
+                </div>
+
+                <!-- GPU Temperature -->
+                <div class="space-y-1">
+                    <div class="flex justify-between text-xs font-mono">
+                        <span class="text-slate-400">Nhiệt độ GPU Core</span>
+                        <span id="gpuTempText" class="text-amber-400 font-bold">54 °C</span>
+                    </div>
+                    <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                        <div id="tempBar" class="h-full bg-amber-400 w-[54%] transition-all duration-300"></div>
+                    </div>
+                </div>
+
+                <!-- Power Draw -->
+                <div class="space-y-1">
+                    <div class="flex justify-between text-xs font-mono">
+                        <span class="text-slate-400">Công suất (TDP Power)</span>
+                        <span id="powerText" class="text-sky-400 font-bold">320 W / 600 W</span>
+                    </div>
+                    <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                        <div id="powerBar" class="h-full bg-sky-400 w-[53%] transition-all duration-300"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Component Inspector List -->
+            <div class="liquid-glass rounded-3xl p-5 space-y-3">
+                <h3 class="font-mono font-bold text-xs text-white">MỔ XẺ LINH KIỆN (COMPONENTS)</h3>
+                
+                <div onclick="selectExplodedPart('fan')" class="liquid-card p-3 rounded-2xl cursor-pointer flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-200">Dual Flow-Through Fans</p>
+                        <p class="text-[10px] text-slate-400">Quạt hút xả đảo chiều tản nhiệt</p>
+                    </div>
+                    <span class="text-xs font-mono text-nvidia-green">2x Fans</span>
+                </div>
+
+                <div onclick="selectExplodedPart('frame')" class="liquid-card p-3 rounded-2xl cursor-pointer flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-200">Unibody Die-cast Frame</p>
+                        <p class="text-[10px] text-slate-400">Khung nhôm nguyên khối hợp kim</p>
+                    </div>
+                    <span class="text-xs font-mono text-slate-400">Sleek Metal</span>
+                </div>
+
+                <div onclick="selectExplodedPart('heatsink')" class="liquid-card p-3 rounded-2xl cursor-pointer flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-200">Vapor Chamber & Fins</p>
+                        <p class="text-[10px] text-slate-400">Buồng hơi tản nhiệt lá đồng</p>
+                    </div>
+                    <span class="text-xs font-mono text-cyan-400">Copper</span>
+                </div>
+
+                <div onclick="selectExplodedPart('pcb')" class="liquid-card p-3 rounded-2xl cursor-pointer flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-200">GB202 Core PCB Board</p>
+                        <p class="text-[10px] text-slate-400">Chip AI Blackwell & GDDR7</p>
+                    </div>
+                    <span class="text-xs font-mono text-indigo-400">Blackwell</span>
+                </div>
+            </div>
+
+        </aside>
+
+    </main>
+
+    <script>
+        const canvas = document.getElementById('gpuCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let fanAngle = 0;
+        let fanRpm = 1800;
+        let isExploded = false;
+        let explosionProgress = 0; // 0 (assembled) to 1 (full teardown)
+        let ledColor = '#76b900'; // Default NVIDIA Green
+        let cameraAngle = 'front'; // 'front', 'side'
+        let selectedPart = null;
+
+        // Resize Canvas dynamically
+        function resizeCanvas() {
+            width = canvas.width = canvas.parentElement.clientWidth;
+            height = canvas.height = canvas.parentElement.clientHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Controls
+        const fanSlider = document.getElementById('fanSpeedSlider');
+        const rpmDisplay = document.getElementById('rpmDisplay');
+        const fanBar = document.getElementById('fanBar');
+        const fanPercentText = document.getElementById('fanPercentText');
+        const teardownBtn = document.getElementById('teardownToggleBtn');
+        const ledBtn = document.getElementById('ledToggleBtn');
+        const ledStateText = document.getElementById('ledStateText');
+
+        fanSlider.addEventListener('input', (e) => {
+            fanRpm = parseInt(e.target.value);
+            rpmDisplay.innerText = `${fanRpm} RPM`;
+            const pct = Math.round((fanRpm / 3600) * 100);
+            fanPercentText.innerText = `${pct}%`;
+            fanBar.style.width = `${pct}%`;
+        });
+
+        teardownBtn.addEventListener('click', () => {
+            isExploded = !isExploded;
+            teardownBtn.innerText = isExploded ? "🔩 Assembly View" : "💥 Exploded Teardown";
+            document.getElementById('viewModeLabel').innerText = isExploded ? "TEARDOWN EXPLODED LAYERS" : "FOUNDERS EDITION 3D MODEL";
+        });
+
+        ledBtn.addEventListener('click', () => {
+            if (ledColor === '#76b900') {
+                ledColor = '#38bdf8'; // Cyan
+                ledStateText.innerText = 'CYAN';
+                ledStateText.className = 'text-sky-400';
+            } else if (ledColor === '#38bdf8') {
+                ledColor = '#ffffff'; // White
+                ledStateText.innerText = 'WHITE';
+                ledStateText.className = 'text-slate-100';
+            } else {
+                ledColor = '#76b900'; // Green
+                ledStateText.innerText = 'GREEN';
+                ledStateText.className = 'text-nvidia-green';
+            }
+        });
+
+        function setCameraAngle(angle) {
+            cameraAngle = angle;
+        }
+
+        function triggerTeardownLayer(part) {
+            isExploded = true;
+            selectedPart = part;
+            teardownBtn.innerText = "🔩 Assembly View";
+            document.getElementById('viewModeLabel').innerText = `INSPECTING: ${part.toUpperCase()}`;
+        }
+
+        function selectExplodedPart(part) {
+            triggerTeardownLayer(part);
+        }
+
+        // Draw Fan Blades helper
+        function drawFan(centerX, centerY, radius, angle, speed) {
+            ctx.save();
+            ctx.translate(centerX, centerY);
+            
+            // Fan Outer Ring Frame
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.arc(0, 0, radius + 2, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Fan Center Hub
+            ctx.fillStyle = '#0f172a';
+            ctx.beginPath();
+            ctx.arc(0, 0, radius * 0.28, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Rotate Blades
+            ctx.rotate(angle);
+
+            // 7 Curved Fan Blades
+            const bladeCount = 7;
+            for (let i = 0; i < bladeCount; i++) {
+                ctx.rotate((Math.PI * 2) / bladeCount);
+                ctx.fillStyle = 'rgba(30, 41, 59, 0.85)';
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.quadraticCurveTo(radius * 0.5, radius * 0.4, radius * 0.9, radius * 0.1);
+                ctx.quadraticCurveTo(radius * 0.6, -radius * 0.2, 0, 0);
+                ctx.fill();
+            }
+
+            // Hub NVIDIA Badge
+            ctx.rotate(-angle - (Math.PI * 2)); // Reset rotation for logo badge
+            ctx.fillStyle = ledColor;
+            ctx.beginPath();
+            ctx.arc(0, 0, radius * 0.12, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        // Main Animation Canvas Loop
+        function render() {
+            ctx.fillStyle = '#05070d';
+            ctx.fillRect(0, 0, width, height);
+
+            // Smooth transition for exploded view animation
+            const targetExplode = isExploded ? 1 : 0;
+            explosionProgress += (targetExplode - explosionProgress) * 0.08;
+
+            const cx = width / 2;
+            const cy = height / 2;
+
+            // Increment fan rotation based on RPM
+            fanAngle += (fanRpm / 60) * 0.05;
+
+            if (cameraAngle === 'front') {
+                // Dimensions of GPU Founders Edition Body
+                const cardWidth = Math.min(width * 0.72, 480);
+                const cardHeight = cardWidth * 0.44;
+                const offsetY = explosionProgress * 40;
+
+                // LAYER 1: BACK PCB BOARD (Exploded layer)
+                if (explosionProgress > 0.05) {
+                    const pcbY = cy + explosionProgress * 70;
+                    ctx.fillStyle = '#0c1610';
+                    ctx.strokeStyle = '#76b900';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.roundRect(cx - cardWidth / 2, pcbY - cardHeight / 2, cardWidth, cardHeight, 16);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    // GB202 GPU Core Die (Center)
+                    ctx.fillStyle = '#111827';
+                    ctx.strokeStyle = '#76b900';
+                    ctx.lineWidth = 2;
+                    ctx.fillRect(cx - 30, pcbY - 30, 60, 60);
+
+                    ctx.fillStyle = '#76b900';
+                    ctx.font = 'bold 9px "Space Grotesk"';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('GB202', cx, pcbY - 5);
+                    ctx.fillText('BLACKWELL', cx, pcbY + 10);
+
+                    // GDDR7 VRAM Chips around GPU
+                    ctx.fillStyle = '#6366f1';
+                    const vramOffset = 45;
+                    ctx.fillRect(cx - vramOffset - 15, pcbY - 20, 15, 15);
+                    ctx.fillRect(cx + vramOffset, pcbY - 20, 15, 15);
+                    ctx.fillRect(cx - 20, pcbY - vramOffset - 10, 15, 15);
+                    ctx.fillRect(cx - 20, pcbY + vramOffset, 15, 15);
+                }
+
+                // LAYER 2: HEATSINK FINS & VAPOR CHAMBER
+                if (explosionProgress > 0.01) {
+                    const heatY = cy;
+                    ctx.fillStyle = '#1e293b';
+                    ctx.beginPath();
+                    ctx.roundRect(cx - cardWidth * 0.48, heatY - cardHeight * 0.46, cardWidth * 0.96, cardHeight * 0.92, 12);
+                    ctx.fill();
+
+                    // Heatsink Fin Lines
+                    ctx.strokeStyle = '#334155';
+                    ctx.lineWidth = 1;
+                    for (let x = cx - cardWidth * 0.45; x < cx + cardWidth * 0.45; x += 6) {
+                        ctx.beginPath();
+                        ctx.moveTo(x, heatY - cardHeight * 0.4);
+                        ctx.lineTo(x, heatY + cardHeight * 0.4);
+                        ctx.stroke();
+                    }
+                }
+
+                // LAYER 3: OUTER FOUNDERS EDITION FRAME (Hourglass Metal Frame)
+                const frameY = cy - explosionProgress * 70;
+                
+                // Outer Sleek Metallic Metallic Casing
+                ctx.fillStyle = '#0f172a';
+                ctx.strokeStyle = '#475569';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.roundRect(cx - cardWidth / 2, frameY - cardHeight / 2, cardWidth, cardHeight, 20);
+                ctx.fill();
+                ctx.stroke();
+
+                // Signature Founders Edition Hourglass / X-Frame Divider
+                ctx.strokeStyle = '#334155';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(cx - cardWidth / 2 + 10, frameY - cardHeight / 2 + 10);
+                ctx.lineTo(cx + cardWidth / 2 - 10, frameY + cardHeight / 2 - 10);
+                ctx.moveTo(cx + cardWidth / 2 - 10, frameY - cardHeight / 2 + 10);
+                ctx.lineTo(cx - cardWidth / 2 + 10, frameY + cardHeight / 2 - 10);
+                ctx.stroke();
+
+                // Dual Fans (Left and Right cutout wells)
+                const fanRadius = cardHeight * 0.36;
+                const fanLeftX = cx - cardWidth * 0.25;
+                const fanRightX = cx + cardWidth * 0.25;
+
+                drawFan(fanLeftX, frameY, fanRadius, fanAngle);
+                drawFan(fanRightX, frameY, fanRadius, -fanAngle); // Counter-rotating fan
+
+                // Middle Badge Logo
+                ctx.fillStyle = '#020617';
+                ctx.strokeStyle = ledColor;
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.roundRect(cx - 45, frameY - 12, 90, 24, 6);
+                ctx.fill();
+                ctx.stroke();
+
+                // GEFORCE RTX Text Logo
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 11px "Space Grotesk"';
+                ctx.textAlign = 'center';
+                ctx.fillText('RTX 5090', cx, frameY + 4);
+
+            } else {
+                // SIDE VIEW WITH GEFORCE RTX GLOWING LED LOGO
+                const sideW = Math.min(width * 0.75, 520);
+                const sideH = 80;
+
+                // Side Metallic Body
+                ctx.fillStyle = '#0f172a';
+                ctx.strokeStyle = '#334155';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.roundRect(cx - sideW / 2, cy - sideH / 2, sideW, sideH, 12);
+                ctx.fill();
+                ctx.stroke();
+
+                // Glowing Side Logo
+                ctx.shadowColor = ledColor;
+                ctx.shadowBlur = 20;
+                ctx.fillStyle = ledColor;
+                ctx.font = 'bold 22px "Space Grotesk"';
+                ctx.textAlign = 'left';
+                ctx.fillText('GEFORCE RTX', cx - sideW / 2 + 35, cy + 8);
+                ctx.shadowBlur = 0; // Reset shadow blur
+
+                // 12V-2x6 Power Connector Slot
+                ctx.fillStyle = '#020617';
+                ctx.fillRect(cx + sideW / 2 - 80, cy - 15, 50, 30);
+                ctx.strokeStyle = '#475569';
+                ctx.strokeRect(cx + sideW / 2 - 80, cy - 15, 50, 30);
+            }
+
+            requestAnimationFrame(render);
+        }
+
+        // Start render loop
+        render();
+    </script>
+</body>
+</html>
+```
+
+I have created an interactive webpage showing the **NVIDIA GeForce RTX 5090 Founders Edition** with dual animated flow-through fans, customizable LED lighting, live telemetry stats, and an **Exploded Teardown view**!
